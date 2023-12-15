@@ -25,8 +25,9 @@ public class FriendListController {
 	FriendListService friService;
 	
 	@GetMapping("/api/friendList")
-	public List<FriendProfileDTO> friendList(@RequestParam int userNo) {
+	public List<FriendProfileDTO> friendList(@RequestBody UserDTO params) {
 		logger.info("친구리스트");
+		int userNo = params.getUserNo();
 		List<FriendProfileDTO> friList = friService.list(userNo);
 		return friList;
 	}
