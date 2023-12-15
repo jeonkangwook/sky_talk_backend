@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.message.userDao.UserDAO">
+	<select id="login" resultType="int" parameterType="String">
+		SELECT userNo 
+		FROM user 
+		WHERE loginId = #{loginId} 
+	</select>
+	
+	<select id="userData" resultType="com.example.message.userDto.UserDTO" parameterType="String">
+		SELECT userNo, loginId, name, birth, mobile, joinDtm, updateDtm
+		FROM user 
+		WHERE loginId = #{loginId} 
+	</select>
+	
+	<select id="passCheck" resultType="String" parameterType="String">
+		SELECT password
+		FROM user 
+		WHERE loginId = #{loginId} 
+	</select>
+	
+	<insert id="join" parameterType="com.example.message.userDto.UserDTO">
+		INSERT INTO user (loginId,password,name,birth,mobile,joinDtm,updateDtm)
+		values (#{loginId},#{password},#{name},#{birth},#{mobile},#{joinDtm},#{updateDtm})
+	</insert>
+	
+	<select id="idCheck" resultType="String" parameterType="String">
+		SELECT loginId
+		FROM user 
+		WHERE loginId = #{loginId}
+	</select>
+	
+	<select id="findId" resultType="String" parameterType="String">
+		SELECT loginId
+		FROM user 
+		WHERE name = #{name} 
+		AND birth = #{birth} 
+		AND mobile = #{mobile} 
+	</select>
+	
+	<select id="findPw" resultType="int" parameterType="String">
+		SELECT 
+		    CASE
+		        WHEN EXISTS (
+		            SELECT 1
+		            FROM user
+		            WHERE loginId = #{loginId} 
+		            AND name = #{name} 
+		            AND mobile = #{mobile}
+		        ) THEN 1
+		        ELSE 0
+		    END AS is_exists
+	</select>
+	
+	<update id="changePw" parameterType="String">
+		UPDATE user 
+		SET password = #{password} 
+		WHERE loginId = #{loginId} 
+			AND name = #{name} 
+			AND mobile = #{mobile}
+	</update>
+
+</mapper>

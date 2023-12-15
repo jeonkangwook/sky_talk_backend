@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.message.friendListDao.FriendListDAO">
+	<select id="list" resultType="com.example.message.friendListDto.FriendProfileDTO" parameterType="int">
+		SELECT * 
+		FROM profile p 
+		INNER JOIN friend f 
+		ON p.userNo = f.friUserNo
+		INNER JOIN user u 
+		ON u.userNo = f.userNo 
+		WHERE u.userNo = #{userNo}
+	</select>
+	
+	<select id="findFriend" resultType="com.example.message.friendListDto.FriendProfileDTO" parameterType="String">
+		SELECT * FROM profile
+		WHERE userNo = (SELECT userNo FROM user WHERE loginId = #{param} or name = #{param})
+	</select>
+	
+	<!-- 위가 안되면 밑에 -->
+<!-- 	<select id="findFriend" resultType="YourResultType"> -->
+<!-- 	  SELECT * FROM profile p -->
+<!-- 	  INNER JOIN user u ON p.userNo = u.userNo -->
+<!-- 	  WHERE u.loginId = #{loginId} OR u.name = #{name} -->
+<!-- 	</select> -->
+
+	<insert id="addFriend" parameterType="int">
+		INSERT INTO friend (userNo, friUserNo) VALUES (#{myUserNo},#{friUserNo})
+	</insert>
+
+</mapper>                                
