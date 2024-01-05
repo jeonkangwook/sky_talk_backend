@@ -59,8 +59,9 @@ public class UserController {
 		return result;
 	}
 	
-	@GetMapping("/api/idCheck")
-	public boolean idCheck(@RequestParam String loginId) {
+	@PostMapping("/api/idCheck")
+	public boolean idCheck(@RequestBody UserDTO params) {
+		String loginId = params.getLoginId();
 		boolean result = userService.idCheck(loginId);
 		return result;
 	}

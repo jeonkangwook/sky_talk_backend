@@ -2,6 +2,9 @@ package com.example.message.friendListDto;
 
 import java.sql.Date;
 
+import lombok.Data;
+
+@Data
 public class FriendListDTO {
 	
 	private int friNo;

@@ -1,6 +1,5 @@
 package com.example.message.friendListCcontroller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
@@ -25,25 +24,30 @@ public class FriendListController {
 	FriendListService friService;
 	
 	@GetMapping("/api/friendList")
-	public List<FriendProfileDTO> friendList(@RequestBody UserDTO params) {
+	public List<FriendProfileDTO> friendList(@RequestParam int userNo) {
 		logger.info("친구리스트");
-		int userNo = params.getUserNo();
+//		int userNo = params.getUserNo();
 		List<FriendProfileDTO> friList = friService.list(userNo);
+		logger.info("friList:{}",friList);
 		return friList;
 	}
 	
-	@PostMapping("/api/findFriend")
-	public FriendProfileDTO findFriend(@RequestBody  UserDTO loginId) {
+	@GetMapping("/api/findFriend")
+	public FriendProfileDTO findFriend(@RequestParam  String loginId) {
 		logger.info("친구찾기");
-		String param = loginId.getLoginId();
-		logger.info("friendFind{}",param);
-		FriendProfileDTO result = friService.findFriend(param);
+//		String param = loginId.getLoginId();
+		logger.info("friendFind{}",loginId);
+		FriendProfileDTO result = friService.findFriend(loginId);
 		logger.info("result:{}",result);
 		return result;
 	}
 	
 	@PostMapping("/api/addFriend")
-	public int addFriend(@RequestParam int myUserNo, @RequestParam int friUserNo) {
+	public int addFriend(@RequestBody UserDTO params) {
+		int myUserNo = params.getMyUserNo();
+		int friUserNo = params.getFriUserNo();
+		logger.info("myUserNo{}",myUserNo);
+		logger.info("friUserNo{}",friUserNo);
 		logger.info("친구추가");
 		int result = friService.addFriend(myUserNo,friUserNo);
 		return result;

@@ -13,6 +13,23 @@ public class UserDTO {
 	private Date joinDtm;
 	private Date updateDtm;
 	
+	private int myUserNo;
+	private int friUserNo;
+	
+	
+	public int getMyUserNo() {
+		return myUserNo;
+	}
+	public void setMyUserNo(int myUserNo) {
+		this.myUserNo = myUserNo;
+	}
+	public int getFriUserNo() {
+		return friUserNo;
+	}
+	public void setFriUserNo(int friUserNo) {
+		this.friUserNo = friUserNo;
+	}
+	
 	public int getUserNo() {
 		return userNo;
 	}
@@ -61,6 +78,7 @@ public class UserDTO {
 	public void setUpdateDtm(Date updateDtm) {
 		this.updateDtm = updateDtm;
 	}
+	
 	
 	
 
