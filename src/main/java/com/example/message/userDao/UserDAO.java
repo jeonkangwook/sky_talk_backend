@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.message.friendListDto.FriendProfileDTO;
 import com.example.message.userDto.UserDTO;
 
 @Mapper
@@ -24,5 +25,15 @@ public interface UserDAO {
 	int changePw(HashMap<String, String> params);
 
 	String idCheck(String loginId);
+
+	FriendProfileDTO profile(int userNo);
+
+	void uploadImage(String newFileName, String userNo, String oriFileName);
+
+	void updateProfile(String nickname, String status, String userNo);
+
+	int profileCheck(String userNo);
+
+	void insertProfile(String nickname, String status, String userNo);
 
 }

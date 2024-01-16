@@ -1,12 +1,18 @@
 package com.example.message.userService;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.message.friendListDto.FriendProfileDTO;
 import com.example.message.userDao.UserDAO;
 import com.example.message.userDto.UserDTO;
 
@@ -19,7 +25,7 @@ public class UserService {
 	@Autowired UserDAO userDao;
 	@Autowired PasswordEncoder encoder;
 	
-
+	@Value("${file.location}") private String root;
 
 
 	public int login(String loginId, String password) {
@@ -70,6 +76,54 @@ public class UserService {
 		}
 		return result;
 	}
+
+	public FriendProfileDTO profile(int userNo) {
+		return userDao.profile(userNo);
+	}
+	
+
+	public void uploadImage(MultipartFile uploadFile, String userNo) {
+		
+		//1. 파일명 추출
+		String oriFileName= uploadFile.getOriginalFilename();
+		logger.info("oriFileName : " + oriFileName);
+		String ext = oriFileName.substring(oriFileName.lastIndexOf("."));
+		logger.info("ext : " + ext);
+		
+		//2. 새 파일명 생성
+		String newFileName= System.currentTimeMillis()+ext;
+		
+		try {
+			// 파일 저장
+			// uploadFile 에서 바이트 추출
+			byte[] arr= uploadFile.getBytes();
+			// 저장할 파일 위치 지정
+			Path path = Paths.get(root+newFileName);
+			// 파일 쓰기
+			Files.write(path, arr);
+			userDao.uploadImage(newFileName,userNo,oriFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void updateProfile(String nickname, String status, String userNo) {
+		userDao.updateProfile(nickname,status,userNo);
+		
+	}
+
+	public int profileCheck(String userNo) {
+		return userDao.profileCheck(userNo);
+		
+	}
+
+	public void insertProfile(String nickname, String status, String userNo) {
+		userDao.insertProfile(nickname,status,userNo);
+		
+	}
+
+
 
 
 

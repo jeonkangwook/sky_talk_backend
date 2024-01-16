@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.message.chatDao.ChatDao">
+
+		<insert id="chatSend">
+			insert into chat (content, chatDtm, chatRoomNo,userNo, sendUserNo)
+			values (#{content},
+				SYSDATE(),
+				(select chatRoomNo from chatRoom where (userNo = #{getUserNo} and sendUserNo = #{sendUserNo}) OR (userNo = #{sendUserNo} AND sendUserNo = #{getUserNo})),
+				#{getUserNo},
+				#{sendUserNo})
+		</insert>
+		
+		<select id="chatRoom" resultType="int" parameterType="int">
+			SELECT IFNULL(
+			    (SELECT chatRoomNo 
+			     FROM chatRoom 
+			     WHERE (userNo = #{getUserNo} AND sendUserNo = #{sendUserNo}) OR (userNo = #{sendUserNo} AND sendUserNo = #{getUserNo})
+			     LIMIT 1), 
+			    0
+			) AS chatRoomNo
+		</select>
+		
+		<insert id="createRoom" parameterType="int">
+			insert into chatRoom (createDtm, userNo, sendUserNo, chatName) 
+			values (SYSDATE(), 
+				   #{getUserNo},
+				   #{sendUserNo},
+				   (select nickName from profile where userNo = #{getUserNo}))
+		</insert>
+		
+		<select id="chatList" resultType="com.example.message.chatDto.ChatDto" parameterType="int">
+			select c.* ,p1.nickName as getUserName,p2.nickName as sendUserName  
+			from chat c, profile p1 , profile p2 
+			where chatRoomNo = #{chatRoomNo}
+			and c.userNo = p1.userNo 
+			and c.sendUserNo = p2.userNo
+		</select>
+		
+		<select id="findChatRoom" resultType="int" parameterType="int">
+			SELECT IFNULL(
+			    (SELECT chatRoomNo 
+			     FROM chatRoom 
+			     WHERE (userNo = #{getUserNo} AND sendUserNo = #{sendUserNo}) OR (userNo = #{sendUserNo} AND sendUserNo = #{getUserNo})
+			     LIMIT 1), 
+			    0
+			) AS chatRoomNo
+		</select>
+		
+
+</mapper>                                

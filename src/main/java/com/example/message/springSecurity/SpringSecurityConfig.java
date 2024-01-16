@@ -32,5 +32,16 @@ public class SpringSecurityConfig {
 		return http.build();
 	}
 	
+	protected void configure(HttpSecurity http) throws Exception {
+        http
+            // 다른 설정 추가...
+            .csrf().disable()
+            .headers().frameOptions().disable()  // WebSocket을 위해 필요할 수 있음
+            .and()
+            .authorizeRequests()
+            .requestMatchers("/ws/**").permitAll();  // WebSocket에 대한 권한 부여
+            // 다른 권한 설정...
+    }
+	
 
 }

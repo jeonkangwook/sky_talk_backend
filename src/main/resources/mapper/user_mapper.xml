@@ -62,5 +62,35 @@
 			AND name = #{name} 
 			AND mobile = #{mobile}
 	</update>
+	
+	<select id="profile" resultType="com.example.message.friendListDto.FriendProfileDTO" parameterType="int">
+		SELECT *
+		FROM profile 
+		WHERE userNo = #{userNo} 
+	</select>
+	
+	<select id="profileCheck" parameterType="String" resultType="int">
+	  SELECT COUNT(*) FROM profile WHERE userNo = #{userNo}
+	</select>
+	
+	<update id="uploadImage" parameterType="String">
+		update profile set
+		imgPath = #{newFileName},
+		oriFileName = #{oriFileName}
+		where userNo = #{userNo}
+	</update>
+	
+	<insert id="insertProfile" parameterType="String">
+	  INSERT INTO profile (userNo, nickName, status, proUpdateDtm)
+	  VALUES (#{userNo}, #{nickname}, #{status}, SYSDATE())
+	</insert>
+	
+	<update id="updateProfile" parameterType="String">
+		update profile set
+		nickName = #{nickname},
+		status = #{status},
+		proUpdateDtm = SYSDATE()
+		where userNo = #{userNo} 
+	</update>
 
 </mapper>
