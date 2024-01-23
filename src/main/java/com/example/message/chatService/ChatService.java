@@ -36,4 +36,17 @@ public class ChatService {
 		return chatDao.findChatRoom(getUserNo,sendUserNo);
 	}
 
+	public ArrayList<ChatDto> chatRoomList(int userNo) {
+		return chatDao.chatRoomList(userNo);
+	}
+
+	public void chatRead(int chatRoomNo, int userNo) {
+		chatDao.chatRead(chatRoomNo,userNo);
+		
+	}
+
+	public ArrayList<ChatDto> roomFind(int userNo) {
+		return chatDao.roomFind(userNo);
+	}
+
 }

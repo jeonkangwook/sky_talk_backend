@@ -19,4 +19,10 @@ public interface ChatDao {
 
 	int findChatRoom(int getUserNo, int sendUserNo);
 
+	ArrayList<ChatDto> chatRoomList(int userNo);
+
+	void chatRead(int chatRoomNo, int userNo);
+
+	ArrayList<ChatDto> roomFind(int userNo);
+
 }
