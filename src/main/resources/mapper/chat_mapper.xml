@@ -50,5 +50,53 @@
 			) AS chatRoomNo
 		</select>
 		
+		<select id="chatRoomList" resultType="com.example.message.chatDto.ChatDto" parameterType="int">
+			WITH RankedChat AS (
+			  SELECT
+			    c.chatRoomNo,
+			    c.content,
+			    c.chatDtm,
+			    p.nickname,
+			    p.imgPath, 
+			    p.userNo, 
+			    (select count(*) from chat where readYn = 'N' and userNo = #{userNo} and chatRoomNo = c.chatRoomNo ) as readYn,
+			    c.sendUserNo, 
+			    ROW_NUMBER() OVER (PARTITION BY c.chatRoomNo ORDER BY c.chatDtm DESC) AS rn
+			  FROM
+			    chatroom cr
+			    JOIN chat c ON c.chatRoomNo = cr.chatRoomNo
+			    JOIN profile p ON p.userNo = c.UserNo
+			  WHERE
+			    cr.userNo = #{userNo} OR cr.sendUserNo = #{userNo}
+			)
+			SELECT
+			  chatRoomNo,
+			  content,
+			  chatDtm,
+			  nickname,
+			  imgPath,
+			  userNo,
+			  readYn,
+			  sendUserNo
+			FROM
+			  RankedChat
+			WHERE
+			  rn = 1
+			ORDER BY
+			  chatDtm DESC
+		</select>
+		
+		<update id="chatRead" parameterType="int">
+			update chat set
+			readYn = "Y"
+			where chatRoomNo = #{chatRoomNo} and
+			userNo = #{userNo}
+		</update>
+		
+		<select id="roomFind" resultType="com.example.message.chatDto.ChatDto" parameterType="int">
+		SELECT chatRoomNo,userNo, sendUserNo  FROM chatRoom
+		WHERE userNo = #{userNo} or sendUserNo = #{userNo}
+	</select>
+		
 
 </mapper>                                

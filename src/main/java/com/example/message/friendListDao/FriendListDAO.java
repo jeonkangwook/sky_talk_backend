@@ -19,5 +19,9 @@ public interface FriendListDAO {
 
 	int addFriend(int myUserNo, int friUserNo);
 
+	void friSetting(int code, int userNo, int friNo);
+
+	List<FriendProfileDTO> friStat(int userNo);
+
 
 }

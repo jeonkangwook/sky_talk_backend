@@ -29,5 +29,13 @@
 	<insert id="addFriend" parameterType="int">
 		INSERT INTO friend (userNo, friUserNo) VALUES (#{myUserNo},#{friUserNo})
 	</insert>
+	
+	<update id="friSetting" parameterType="int">
+		update friend set friCode = #{code}, relUpDtm = SYSDATE() where userNo = #{userNo} and friUserNo = #{friNo}
+	</update>
+	
+	<select id="friStat" resultType="com.example.message.friendListDto.FriendProfileDTO" parameterType="int">
+		select friCode  from friend f where userNo = #{userNo}
+	</select>
 
 </mapper>                                

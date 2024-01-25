@@ -37,6 +37,16 @@ public class FriendListService {
 		return friDao.addFriend(myUserNo,friUserNo);
 	}
 
+
+	public void friSetting(int code, int userNo, int friNo) {
+		friDao.friSetting(code,userNo,friNo);
+	}
+
+
+	public List<FriendProfileDTO> friStat(int userNo) {
+		return friDao.friStat(userNo);
+	}
+
 	
 	
 

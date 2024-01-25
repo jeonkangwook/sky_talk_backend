@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.message.friendListDto.FriendListDTO;
 import com.example.message.friendListDto.FriendProfileDTO;
 import com.example.message.friendListService.FriendListService;
 import com.example.message.userDto.UserDTO;
@@ -28,6 +29,8 @@ public class FriendListController {
 		logger.info("친구리스트");
 //		int userNo = params.getUserNo();
 		List<FriendProfileDTO> friList = friService.list(userNo);
+		List<FriendProfileDTO> friStat = friService.friStat(userNo);
+		friList.addAll(friStat);
 		logger.info("friList:{}",friList);
 		return friList;
 	}
@@ -51,6 +54,14 @@ public class FriendListController {
 		logger.info("친구추가");
 		int result = friService.addFriend(myUserNo,friUserNo);
 		return result;
+	}
+	
+	@PostMapping("/api/friSetting")
+	public void friSetting(@RequestBody FriendListDTO dto) {
+		int code = dto.getFriCode();
+		int userNo = dto.getUserNo();
+		int friNo = dto.getFriUserNo();
+		friService.friSetting(code,userNo,friNo);
 	}
 	
 	

@@ -17,33 +17,33 @@ import com.example.message.webSocketHandler.MyWebSocketHandler;
 
 @Configuration
 @EnableWebSocket
-@EnableWebSocketMessageBroker
+//@EnableWebSocketMessageBroker
 @Controller
 public class WebSocketConfig implements WebSocketConfigurer, WebSocketMessageBrokerConfigurer {
 
 	@Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(myWebSocketHandler(), "/ws").setAllowedOriginPatterns("*");
+        registry.addHandler(new MyWebSocketHandler(), "/ws/").setAllowedOriginPatterns("*");
     }
 
-    @Bean
-    public MyWebSocketHandler myWebSocketHandler() {
-        return new MyWebSocketHandler();
-    }
+//    @Bean
+//    public MyWebSocketHandler myWebSocketHandler() {
+//        return new MyWebSocketHandler();
+//    }
     
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").
-//        setAllowedOrigins("*").
-        setAllowedOriginPatterns("*");
-//        withSockJS();
-    }
-    
-    
-    
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
-    }
+//    @Override
+//    public void registerStompEndpoints(StompEndpointRegistry registry) {
+//        registry.addEndpoint("/ws").
+////        setAllowedOrigins("*").
+//        setAllowedOriginPatterns("*");
+////        withSockJS();
+//    }
+//    
+//    
+//    
+//    @Override
+//    public void configureMessageBroker(MessageBrokerRegistry config) {
+//        config.enableSimpleBroker("/topic");
+//        config.setApplicationDestinationPrefixes("/app");
+//    }
 }

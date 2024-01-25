@@ -7,18 +7,18 @@ import lombok.Data;
 @Data
 public class FriendListDTO {
 	
-	private int friNo;
+	private int friUserNo;
 	private int friCode;
 	private Date relDtm;
 	private Date relUpDtm;
 	private int userNo;
 	
 	
-	public int getFriNo() {
-		return friNo;
+	public int getFriUserNo() {
+		return friUserNo;
 	}
-	public void setFriNo(int friNo) {
-		this.friNo = friNo;
+	public void setFriUserNo(int friUserNo) {
+		this.friUserNo = friUserNo;
 	}
 	public int getFriCode() {
 		return friCode;
