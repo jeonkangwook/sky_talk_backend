@@ -14,8 +14,15 @@ public class FriendProfileDTO {
 	private int friCode;
 	private Date relDtm;
 	private Date relUpDtm;
+	private String username;
 
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public int getFriUserNo() {
 		return friUserNo;
 	}

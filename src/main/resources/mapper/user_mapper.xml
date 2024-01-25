@@ -74,10 +74,10 @@
 	</select>
 	
 	<update id="uploadImage" parameterType="String">
-		update profile set
+		UPDATE profile SET
 		imgPath = #{newFileName},
 		oriFileName = #{oriFileName}
-		where userNo = #{userNo}
+		WHERE userNo = #{userNo}
 	</update>
 	
 	<insert id="insertProfile" parameterType="String">
@@ -86,11 +86,11 @@
 	</insert>
 	
 	<update id="updateProfile" parameterType="String">
-		update profile set
+		UPDATE profile SET
 		nickName = #{nickname},
 		status = #{status},
 		proUpdateDtm = SYSDATE()
-		where userNo = #{userNo} 
+		WHERE userNo = #{userNo} 
 	</update>
 
 </mapper>

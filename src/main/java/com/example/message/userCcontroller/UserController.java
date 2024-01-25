@@ -29,6 +29,8 @@ import com.example.message.friendListDto.FriendProfileDTO;
 import com.example.message.userDto.UserDTO;
 import com.example.message.userService.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @RestController
 public class UserController {
@@ -39,7 +41,7 @@ public class UserController {
 	@Autowired PasswordEncoder encoder;
 	
 	@PostMapping("/api/login")
-	public UserDTO login(@RequestBody HashMap<String, String> params) {
+	public UserDTO login(@RequestBody HashMap<String, String> params,HttpSession session) {
 		String loginId = params.get("username");
 		String password = params.get("password");
 		logger.info("로그인");
@@ -50,8 +52,10 @@ public class UserController {
 		UserDTO userData = null;
 		if(result != 0) {
 			userData = userService.userData(loginId,password);
+			session.setAttribute("loginId", userData);
 		}
 		logger.info("userData:{}",userData);
+		logger.info("session:{}",session);
 		return userData;
 	}
 	
